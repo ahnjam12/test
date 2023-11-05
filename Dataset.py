@@ -86,15 +86,19 @@ class Dataset(torch.utils.data.Dataset):
     def padding(self, data): #제로 패딩을 쓴다더라 데이터에 패딩을 적용 배열 크기 조절에 사용  padding하는거 추가하기 
         # Make the array the same size as arraySize
         # Write your code here
+        target = (self.arraySize, self.arraySize,
+                        self.arraySize)  # 원하는 크기
+        padded_data = np.zeros(target)  # 패딩된 데이터 배열 초기화
+
         # 패딩 크기 계산
-        padding_x = (self.arraySize - data.shape[2]) // 2
-        padding_y = (self.arraySize - data.shape[1]) // 2
-        padding_z = (self.arraySize - data.shape[0]) // 2
+        padding_x = (target[2] - data.shape[2]) // 2
+        padding_y = (target[1] - data.shape[1]) // 2
+        padding_z = (target[0] - data.shape[0]) // 2
 
         # 패딩된 데이터 생성
         padded_data = np.pad(data, ((padding_z, padding_z),
                             (padding_y, padding_y), (padding_x, padding_x)), mode='constant')
-        return data
+        return padded_data
 
 
 class ToTensor(object): #tensor로 바꿔주는 것
